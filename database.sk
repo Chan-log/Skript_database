@@ -1,10 +1,10 @@
 on script load:
-    set {-sql} to the database "mysql://192.168.50.220:3306/user_data?user=root&password=mc_159159159&useSSL=false"
-    send "Loaded Database" to console
+    set {-sql} to the database "mysql://192.168.50.220:3306/user_data?user=root&password=mc_159159159&useSSL=false" // 쿼리 연동
+    send "Loaded Database" to console // 로드시 출력 메세지
 
 command /database:
     trigger:
         set {_test} to "command time"
-        execute "INSERT INTO `user_data` (`uuid`,`username`,`lastjoin`) VALUES (%uuid of player%,%name of player%,%rounded unix timestamp of now%) ON DUPLICATE KEY UPDATE `username`=VALUES(`username`),`lastjoin`=VALUES(`lastjoin`)" in {-sql}
-        execute "select * from user_data WHERE uuid = %player's uuid% LIMIT 1" in {-sql} and store the result in {_output::*}
-        send "%{_test}% | %{_output::username::*}%" to player
+        execute "INSERT INTO `user_data` (`uuid`,`username`,`lastjoin`) VALUES (%uuid of player%,%name of player%,%rounded unix timestamp of now%) ON DUPLICATE KEY UPDATE `username`=VALUES(`username`),`lastjoin`=VALUES(`lastjoin`)" in {-sql} // 쿼리에 uuid, nickname, 현재 시간 업로드
+        execute "select * from user_data WHERE uuid = %player's uuid% LIMIT 1" in {-sql} and store the result in {_output::*} // 명령어 입력자의 uuid 로드 후 해당 uuid로 쿼리 검색 후 output 임시 변수에 저장
+        send "%{_test}% | %{_output::username::*}%" to player // 불러온 데이터중 username 출
